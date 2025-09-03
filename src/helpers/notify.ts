@@ -29,4 +29,4 @@ export const handleSchedule = async ()=> {
             showNotification('Задача добавлена', {body: 'Ваша задача успешно добавлена', icon: './icon.png'})
         }, 5000)
     }
-}
+} 

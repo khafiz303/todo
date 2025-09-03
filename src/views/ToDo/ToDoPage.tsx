@@ -16,7 +16,7 @@ export const ToDoPage = ()=> {
     const [deleteTask] = useDeleteTaskMutation()
     const [updateTask] = useUpdateTaskMutation()
     const [createTask] = useAddTaskMutation()
-    
+
     const handleDelete = async(id: number)=>{
         try{
             await deleteTask(id).unwrap()
