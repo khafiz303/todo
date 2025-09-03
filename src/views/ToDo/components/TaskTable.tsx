@@ -17,7 +17,7 @@ import{
 import DeleteIcon from '@mui/icons-material/Delete'
 // import EditIcaon from '@mui/icons-material/Edit'
 
-import type { Task } from './types'
+import type { Task } from '@/types/task'
 
 type TaskTableProps = {
     tasks: Task[],
@@ -32,6 +32,8 @@ export const TaskTable = ({tasks, onDelete, onToggle}: TaskTableProps) => {
                     <TableCell>Статус</TableCell>
                     <TableCell>Название</TableCell>
                     <TableCell>Действия</TableCell>
+                    <TableCell>Дата создания</TableCell>
+                    <TableCell>Уведомление (time)</TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
@@ -48,6 +50,12 @@ export const TaskTable = ({tasks, onDelete, onToggle}: TaskTableProps) => {
                         </TableCell>
                         <TableCell>
                             <DeleteIcon onClick={()=> onDelete(task.id)}/>
+                        </TableCell>
+                        <TableCell>
+                            {task.createdAt.toLocaleString()}
+                        </TableCell>
+                        <TableCell>
+                            {task.notification.toLocaleString()}
                         </TableCell>
                     </TableRow>
                 ))}

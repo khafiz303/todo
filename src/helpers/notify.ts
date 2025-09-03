@@ -21,3 +21,12 @@ export const showNotification = (title: string, options?: NotificationOptions) =
     }
 
 }
+
+export const handleSchedule = async ()=> {
+    const granted = await requestNotification()
+    if(granted){
+        setTimeout(()=> {
+            showNotification('Задача добавлена', {body: 'Ваша задача успешно добавлена', icon: './icon.png'})
+        }, 5000)
+    }
+}
