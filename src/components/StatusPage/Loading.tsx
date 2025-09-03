@@ -8,6 +8,9 @@ export const Loading = ()=>{
             <Typography>
                 Загрузка данных...
             </Typography>
+            <Box>
+                <img src='@/assets/loading.svg'/>
+            </Box>
         </Box>
     )
 

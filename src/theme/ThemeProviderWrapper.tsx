@@ -16,7 +16,8 @@ export const useThemeContext = ()=>{
         return context
 }
 
-export const ThemeProviderWrapper: React.FC<{children: React.ReactNode}> = ({children}) =>{
+// export const ThemeProviderWrapper: React.FC<{children: React.ReactNode}> = ({children}) =>{
+export const ThemeProviderWrapper = ({children}: {children: React.ReactNode}) => {
     const [isDarkMode, setIsDarkMode] = useState(false)
 
     const toggleTheme =useCallback(()=> {setIsDarkMode((prev) => !prev )}, [])
