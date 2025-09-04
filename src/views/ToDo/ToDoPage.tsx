@@ -99,7 +99,6 @@ const filterTasks = (info: string | string[]) => {
                 <Typography variant='h5' mb={2}>
                     Завершенных задач сегодня: {tasks.filter(task => task.completed && new Date(task.notification).toDateString() === new Date().toDateString()).length}
                 </Typography>
-
                 <Button>
                     <Typography onClick={() => filterTasks('completed')}>
                         Завершенные задачи
