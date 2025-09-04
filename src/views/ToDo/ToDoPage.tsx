@@ -4,7 +4,7 @@ import { useGetTasksQuery,
             useDeleteTaskMutation,
             useUpdateTaskMutation,
             useAddTaskMutation
-        } from '@/services/taskApi'
+        } from '@/redux/services/taskApi'
 import { TaskTable } from './components/TaskTable'
 import { Error, Loading , Empty } from '@/components/StatusPage'
 import type { Task } from '@/types/task'
@@ -20,14 +20,14 @@ export const ToDoPage = ()=> {
     const handleDelete = async(id: number)=>{
         try{
             await deleteTask(id).unwrap()
-        }catch(e){
+        }catch(e){  
             console.error(e)
         }
     }
-    const handleToggle = async (id : number , completed : boolean )=> {
+    const handleToggle = async (id : number, data: Task )=> {
         try{
-            await updateTask({id, data: {completed}}).unwrap()
-        }catch(e){
+            await updateTask({id, data}).unwrap()
+        }catch(e){  
             console.error(e)
         }
     }
