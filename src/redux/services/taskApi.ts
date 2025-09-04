@@ -36,6 +36,7 @@ export const taskApi = createApi({
         getById: builder.query<Task, string>({
             query: (id) => ({
                 url: `/task/${id}`,
+<<<<<<< HEAD
                 method: 'GET',
             }),
             providesTags: ['Tasks']
@@ -54,6 +55,12 @@ export const taskApi = createApi({
             }),
             providesTags: ['Chat']
         }),
+=======
+                method: 'GET'
+            }),
+            providesTags: ['Tasks']
+        })
+>>>>>>> filter
     })
 })
 

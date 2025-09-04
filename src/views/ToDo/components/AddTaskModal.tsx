@@ -18,7 +18,7 @@ import * as yup from 'yup'
 import type { Task } from '@/types/task'
 
 const schema = yup.object({
-    title: yup.string().required('Введите название'),
+    title: yup.string().required('Введите название задачи'),
     completed: yup.boolean().default(false),
     createdAt: yup.date().default(()=> new Date()),
     notification: yup.date().required('Указите дату выполнение'),
@@ -49,7 +49,7 @@ export const AddTaskModal = ({open, onClose, onSubmit}: AddTaskModalProps) =>{
         onSubmit(data)
         reset()
         onClose()
-        
+
     }
 
     return(

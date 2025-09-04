@@ -5,7 +5,7 @@ import './styles.scss'
 export const Loading = ()=>{
     return(
         <Box className='box'>
-            <CircularProgress color='primary' size={6} thickness={4}/>
+            <CircularProgress color='primary' size={60} thickness={10}/>
             <Typography>
                 Загрузка данных...
             </Typography>

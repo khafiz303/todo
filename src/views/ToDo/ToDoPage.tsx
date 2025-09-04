@@ -181,7 +181,7 @@ const filterTasks = (info: string | string[]) => {
                 tasks={filteredTasks ?? tasks}
                 onDelete={handleDelete}
                 onToggle={handleToggle}
-                
+            
             />}
             <AddTaskModal
                 open={isModalOpen}
