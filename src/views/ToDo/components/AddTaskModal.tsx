@@ -9,15 +9,18 @@ import{
     FormControlLabel
 } from '@mui/material'
 
-import { useForm , Controller} from 'react-hook-form'
+import { useForm , Controller } from 'react-hook-form'
+import type { SubmitHandler } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup'
 
-import type { Task } from './types'
+import type { Task } from '@/types/task'
 
 const schema = yup.object({
-    title: yup.string().required('Введите название задачи'),
+    title: yup.string().required('Введите название'),
     completed: yup.boolean().default(false),
+    createdAt: yup.date().default(()=> new Date()),
+    notification: yup.date().default(()=> new Date())
 }).required();
 
 
@@ -33,13 +36,13 @@ export const AddTaskModal = ({open, onClose, onSubmit}: AddTaskModalProps) =>{
         handleSubmit,
         control, 
         reset,
-        formState: {errors}
+        // formState: {errors}
     } =useForm<Omit<Task, 'id'>>({
-        defaultValues: {title : '' , completed: false},
+        defaultValues: {title : '' , completed: false , createdAt: new Date(), notification: new Date()},
         resolver: yupResolver(schema)
     })
 
-    const handleFormSubmit =(data: Omit<Task, 'id'>) =>{
+    const handleFormSubmit: SubmitHandler<Omit<Task, 'id'>> = (data) =>{
         onSubmit(data)
         reset()
         onClose()
@@ -85,6 +88,22 @@ export const AddTaskModal = ({open, onClose, onSubmit}: AddTaskModalProps) =>{
                     )}
                 />
 
+                <Controller
+                    name='notification'
+                    control={control}
+                    render={({ field }) => (
+                        <TextField
+                            type='datetime-local'
+                            {...field}
+                            fullWidth
+                            margin="dense"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                        />
+
+                    )}
+                />
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClose} color='secondary'>

@@ -2,10 +2,10 @@ import React, { useCallback } from 'react';
 import { AppBar, Toolbar, IconButton, Typography } from '@mui/material';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
-import { useThemeContext } from '@/theme/ThemeProviderWrapper';
+import { UseThemeContext } from '@/theme/ThemeProviderWrapper';
 
 export const Navbar: React.FC = React.memo(() => {
-  const { toggleTheme, mode } = useThemeContext();
+  const { toggleTheme, mode } = UseThemeContext();
 
   const handleToggleTheme = useCallback(() => {
     toggleTheme();
@@ -15,7 +15,7 @@ export const Navbar: React.FC = React.memo(() => {
     <AppBar position="static" color="primary">
       <Toolbar>
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          ToDO
+          App
         </Typography>
 
         <IconButton color="inherit" onClick={handleToggleTheme}>

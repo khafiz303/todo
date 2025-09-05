@@ -1,4 +1,5 @@
 // import React from 'react'
+import { Skeleton } from '@mui/material'
 import { Box, CircularProgress , Typography } from '@mui/material'
 import './styles.scss'
 export const Loading = ()=>{
@@ -8,6 +9,10 @@ export const Loading = ()=>{
             <Typography>
                 Загрузка данных...
             </Typography>
+            <Skeleton variant="rounded" width="100%" animation="wave"/>
+            <Box>
+                <img src='@/assets/loading.svg'/>
+            </Box>
         </Box>
     )
 
