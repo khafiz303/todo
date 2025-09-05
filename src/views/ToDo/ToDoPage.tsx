@@ -1,5 +1,19 @@
 import {useState} from 'react'
+import * as React from 'react'
 import { Box , Button, Typography } from '@mui/material'
+// import BottomNavigation from '@mui/material/BottomNavigation'
+// import BottomNavigationAction from '@mui/material/BottomNavigationAction'
+// import PersonIcon from '@mui/icons-material/Person';
+// import WorkIcon from '@mui/icons-material/Work';
+// import SchoolIcon from '@mui/icons-material/School';
+// import FolderIcon from '@mui/icons-material/Folder';
+// import Paper from '@mui/material/Paper';
+// import List from '@mui/material/List';
+// import ListItemButton from '@mui/material/ListItemButton';
+// import ListItemAvatar from '@mui/material/ListItemAvatar';
+// import ListItemText from '@mui/material/ListItemText';
+// import Avatar from '@mui/material/Avatar';
+
 import { useGetTasksQuery,
             useDeleteTaskMutation,
             useUpdateTaskMutation,
@@ -18,6 +32,14 @@ export const ToDoPage = ()=> {
     const [deleteTask] = useDeleteTaskMutation()
     const [updateTask] = useUpdateTaskMutation()
     const [createTask] = useAddTaskMutation()
+    // const [value , setValue] = useState(0)
+
+    // const ref = React.useRef<HTMLDivElement>(null)
+
+    // React.useEffect(() => {
+    //     (ref.current as HTMLDivElement).ownerDocument.body.scrollTop = 0;
+    //     setMessages(refreshMessages());
+    // }, [value, setMessages]);
 
 const filterTasks = (info: string | string[]) => {
   if (!tasks) {
@@ -133,7 +155,51 @@ const filterTasks = (info: string | string[]) => {
                 onToggle={handleToggle}
                 
             />}
+{/* 
+            <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
+                <BottomNavigationAction
+                    label="Recents"
+                    value="recents"
+                    icon={<PersonIcon />}
+                />
+                <BottomNavigationAction
+                    label="Favorites"
+                    value="favorites"
+                    icon={<WorkIcon />}
+                />
+                <BottomNavigationAction
+                    label="Nearby"
+                    value="nearby"
+                    icon={<SchoolIcon />}
+                />
+                <BottomNavigationAction label="Folder" value="folder" icon={<FolderIcon />} />
+            </BottomNavigation> */}
 
+            {/* <Box sx={{ pb: 7 }} ref={ref}>
+                <List>
+                    {messages.map(({ primary, secondary, person }, index) => (
+                    <ListItemButton key={index + person}>
+                        <ListItemAvatar>
+                        <Avatar alt="Profile Picture" src={person} />
+                        </ListItemAvatar>
+                        <ListItemText primary={primary} secondary={secondary} />
+                    </ListItemButton>
+                    ))}
+                </List>
+                <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
+                    <BottomNavigation
+                    showLabels
+                    value={value}
+                    onChange={(event, newValue) => {
+                        setValue(newValue);
+                    }}
+                    >
+                    <BottomNavigationAction label="Personal" icon={<PersonIcon />} />
+                    <BottomNavigationAction label="Work" icon={<WorkIcon />} />
+                    <BottomNavigationAction label="edu" icon={<SchoolIcon />} />
+                    </BottomNavigation>
+                </Paper>
+            </Box> */}
             <AddTaskModal
                 open={isModalOpen}
                 onClose={()=> setIsModalOpen(false)}

@@ -20,7 +20,9 @@ const schema = yup.object({
     title: yup.string().required('Введите название'),
     completed: yup.boolean().default(false),
     createdAt: yup.date().default(()=> new Date()),
-    notification: yup.date().default(()=> new Date())
+    notification: yup.date().required('Указите дату выполнение'),
+    priority: yup.string().required('Введите важность задачи'),
+    categories: yup.string().required('Категория')
 }).required();
 
 
@@ -46,7 +48,7 @@ export const AddTaskModal = ({open, onClose, onSubmit}: AddTaskModalProps) =>{
         onSubmit(data)
         reset()
         onClose()
-
+        
     }
 
     return(
