@@ -20,7 +20,8 @@ const schema = yup.object({
     title: yup.string().required('Введите название задачи'),
     completed: yup.boolean().default(false),
     createdAt: yup.date().default(()=> new Date()),
-    notification: yup.date().default(()=> new Date())
+    notification: yup.date().required('Указите дату выполнение'),
+    priority: yup.string().required('Введите важность задачи')
 }).required();
 
 
@@ -38,7 +39,7 @@ export const AddTaskModal = ({open, onClose, onSubmit}: AddTaskModalProps) =>{
         reset,
         // formState: {errors}
     } =useForm<Omit<Task, 'id'>>({
-        defaultValues: {title : '' , completed: false , createdAt: new Date(), notification: new Date()},
+        defaultValues: {title : '' , completed: false , createdAt: new Date(), notification: new Date(), priority: 'low'},
         resolver: yupResolver(schema)
     })
 
