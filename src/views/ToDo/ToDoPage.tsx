@@ -35,6 +35,8 @@ const filterTasks = (info: string | string[]) => {
             return new Date(task.notification).toDateString() === new Date().toDateString();
           case "withoutDate":
             return !task.notification;
+          case "expired":
+            return new Date(task.notification) < new Date()
           default:
             return task.id.toString() === filter;
         }
@@ -56,6 +58,9 @@ const filterTasks = (info: string | string[]) => {
     case "withoutDate":
       setFilteredTasks(tasks.filter(task => !task.notification));
       break;
+    case "expired":
+        setFilteredTasks(tasks.filter(task => new Date(task.notification) < new Date()))
+        break
     default:
       setFilteredTasks(tasks.filter(task => task.id.toString() === info));
   }
@@ -112,6 +117,11 @@ const filterTasks = (info: string | string[]) => {
                 <Button>
                     <Typography onClick= {() => filterTasks('withoutDate')} >
                         Задачи без срока
+                    </Typography>
+                </Button>
+                <Button>
+                    <Typography onClick= {()=> filterTasks('expired')} >
+                        Истекшие задачи
                     </Typography>
                 </Button>
             </Box>

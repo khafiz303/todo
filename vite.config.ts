@@ -1,17 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
-// import path from 'path'
+import * as  path from 'path'
 import {VitePWA} from 'vite-plugin-pwa'
-
-// // https://vite.dev/config/
-// export default defineConfig({
-//   plugins: [react()],
-//   resolve:{
-//     alias:{
-//       '@': path.resolve(__dirname, 'src')
-//     }
-//   }
-// })
 
 export default defineConfig({
   plugins: [
@@ -42,4 +32,9 @@ export default defineConfig({
       },
     }),
   ],
+    resolve:{
+    alias:{
+      '@': path.resolve(__dirname, 'src')
+    },
+  }
 })
