@@ -5,13 +5,15 @@ interface UiState {
   isAddTaskModalOpen: boolean
   selectedTaskId?: number
   isAddForm: boolean
+  isEditModal: boolean
 
 }
 
 const initialState: UiState = {
   isAddTaskModalOpen: false,
   selectedTaskId: undefined,
-  isAddForm: false
+  isAddForm: false,
+  isEditModal: false
 }
 
 export const uiSlice = createSlice({
@@ -33,7 +35,12 @@ export const uiSlice = createSlice({
     openForm: (state) => {
       state.isAddForm = true
     },
-    
+    openEditModal: (state) => {
+      state.isEditModal = true
+    },
+    closeEditModal: (state) => {
+      state.isEditModal = false
+    }
   },
 })
 

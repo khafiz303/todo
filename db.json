@@ -3,7 +3,8 @@
     {
         "title": "Задача 2",
         "completed": false,
-        "id": "4f48"
+        "id": "4f48",
+        "priority": "medium"
       },
       {
         "title": "Задача 3",

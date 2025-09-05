@@ -19,6 +19,10 @@ export const ToDoPage = ()=> {
     const [updateTask] = useUpdateTaskMutation()
     const [createTask] = useAddTaskMutation()
 
+    // const h = tasks?.filter(task => task.priority === 'high')
+    // const m = tasks?.filter(task => task.priority === 'medium')
+    // const l = tasks?.filter(task => task.priority === 'low')
+
 const filterTasks = (info: string | string[]) => {
   if (!tasks) {
     setFilteredTasks([]);
@@ -92,6 +96,7 @@ const filterTasks = (info: string | string[]) => {
     if(error) {
         return <Error retry={()=> window.location.reload()}/>
     }
+    // const sumPriority = [h , m , l].flat()
     return(
         <Box p={2}>
             <Box mb={2}>
