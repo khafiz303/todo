@@ -1,5 +1,6 @@
 import {useState} from 'react' //Уровни / ачивки («5 дней подряд без просроченных задач»).
 import * as React from 'react'
+import { useAppDispatch , useAppSelector } from '@/redux/hooks'
 import { Box , Button, Typography } from '@mui/material'
 // import BottomNavigation from '@mui/material/BottomNavigation'
 // import BottomNavigationAction from '@mui/material/BottomNavigationAction'
@@ -23,15 +24,18 @@ import { TaskTable } from './components/TaskTable'
 import { Error, Loading , Empty } from '@/components/StatusPage'
 import type { Task } from '@/types/task'
 import { AddTaskModal } from './components/AddTaskModal'
+import { closeAddTaskModal, openAddTaskModal } from '@/redux/features/toDoSlice'
 
 export const ToDoPage = ()=> {
-    const [isModalOpen , setIsModalOpen] = useState(false)
-    const [filteredTasks , setFilteredTasks] = useState([] as Task[])
+    const [filteredTasks , setFilteredTasks] = useState<Task[] | null>(null);
 
     const { data: tasks, error, isLoading } = useGetTasksQuery()
     const [deleteTask] = useDeleteTaskMutation()
     const [updateTask] = useUpdateTaskMutation()
     const [createTask] = useAddTaskMutation()
+
+    const isModalOpen = useAppSelector(state => state.ui.isAddTaskModalOpen)
+    const dispatch = useAppDispatch()
     // const [value , setValue] = useState(0)
 
     // const ref = React.useRef<HTMLDivElement>(null)
@@ -42,6 +46,7 @@ export const ToDoPage = ()=> {
     // }, [value, setMessages]);
 
 const filterTasks = (info: string | string[]) => {
+
   if (!tasks) {
     setFilteredTasks([]);
     return;
@@ -66,21 +71,21 @@ const filterTasks = (info: string | string[]) => {
     setFilteredTasks(filtered);
     return;
   }
-  switch (info) {
-    case "completed":
-      setFilteredTasks(tasks.filter(task => task.completed));
-      break;
-    case "today":
-      setFilteredTasks(
-        tasks.filter(task => new Date(task.notification).toDateString() === new Date().toDateString())
-      );
-      break;
-    case "withoutDate":
-      setFilteredTasks(tasks.filter(task => !task.notification));
-      break;
-    default:
-      setFilteredTasks(tasks.filter(task => task.id.toString() === info));
-  }
+//   switch (info) {
+//     case "completed":
+//       setFilteredTasks(tasks.filter(task => task.completed));
+//       break;
+//     case "today":
+//       setFilteredTasks(
+//         tasks.filter(task => new Date(task.notification).toDateString() === new Date().toDateString())
+//       );
+//       break;
+//     case "withoutDate":
+//       setFilteredTasks(tasks.filter(task => !task.notification));
+//       break;
+//     default:
+//       setFilteredTasks(tasks.filter(task => task.id.toString() === info));
+//   }
 };
     const handleDelete = async(id: number)=>{
         try{
@@ -104,8 +109,13 @@ const filterTasks = (info: string | string[]) => {
         }
     }
 
+    const openModal = ()=> {
+        dispatch(openAddTaskModal())
+        
+    }
+
     if(isLoading) return <Loading/>
-    if(!tasks || tasks.length === 0 ) return <Empty/>
+    if(!tasks || tasks.length === 0 ) return <Empty addTasks={true} openModal={openModal}/>
     if(error) {
         return <Error retry={()=> window.location.reload()}/>
     }
@@ -143,14 +153,14 @@ const filterTasks = (info: string | string[]) => {
             <Button
                 variant='contained'
                 color='primary'
-                onClick={()=> setIsModalOpen(true)}
+                onClick={openModal}
                 sx={{mb:2}}
 
             >
                 Добавить задачу
             </Button>
             {<TaskTable
-                tasks={filteredTasks ? filteredTasks : tasks}
+                tasks={filteredTasks ?? tasks}
                 onDelete={handleDelete}
                 onToggle={handleToggle}
                 
@@ -202,7 +212,7 @@ const filterTasks = (info: string | string[]) => {
             </Box> */}
             <AddTaskModal
                 open={isModalOpen}
-                onClose={()=> setIsModalOpen(false)}
+                onClose={()=> dispatch(closeAddTaskModal())}
                 onSubmit={handleCreate}
             />
         </Box>

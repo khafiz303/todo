@@ -1,13 +1,12 @@
-export interface Task {
+    export interface Task {
     id: number ,
     title : string,
     completed : boolean,
     createdAt: Date;
     notification: Date;
-    priority: string;
-    categories: string
-}   
+    priority: Important;
+    categories:Categories
+    }   
 
-export interface priorityType{
-    priority: 'low' | 'high' | 'medium'
-}
+    export type Important =  'low' | 'high' | 'medium'
+    export type Categories = 'job' | 'edu' | 'personal' | 'general'

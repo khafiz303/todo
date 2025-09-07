@@ -30,3 +30,21 @@ export const handleSchedule = async ()=> {
         }, 5000)
     }
 } 
+
+export const scheduleNotification = (task: Task) => {
+    if (!task.notificationTime) return;
+  
+    const target = new Date(task.notificationTime).getTime();
+    const now = Date.now();
+    const delay = target - now;
+  
+    if (delay > 0) {
+      setTimeout(() => {
+        showNotification(task.title, {
+          body: "Время пришло для задачи!",
+          icon: "./icon.png",
+        });
+      }, delay);
+    }
+  };
+  
