@@ -17,11 +17,12 @@ import * as yup from 'yup'
 import type { Task } from '@/types/task'
 
 const schema = yup.object({
-    title: yup.string().required('Введите название задачи'),
+    title: yup.string().required('Введите название'),
     completed: yup.boolean().default(false),
     createdAt: yup.date().default(()=> new Date()),
     notification: yup.date().required('Указите дату выполнение'),
-    priority: yup.string().required('Введите важность задачи')
+    priority: yup.string().required('Введите важность задачи'),
+    categories: yup.string().required('Категория')
 }).required();
 
 
@@ -39,7 +40,7 @@ export const AddTaskModal = ({open, onClose, onSubmit}: AddTaskModalProps) =>{
         reset,
         // formState: {errors}
     } =useForm<Omit<Task, 'id'>>({
-        defaultValues: {title : '' , completed: false , createdAt: new Date(), notification: new Date(), priority: 'low'},
+        defaultValues: {title : '' , completed: false , createdAt: new Date(), notification: new Date(), priority: 'low' , categories: 'general'},
         resolver: yupResolver(schema)
     })
 
@@ -47,7 +48,7 @@ export const AddTaskModal = ({open, onClose, onSubmit}: AddTaskModalProps) =>{
         onSubmit(data)
         reset()
         onClose()
-
+        
     }
 
     return(
@@ -89,6 +90,22 @@ export const AddTaskModal = ({open, onClose, onSubmit}: AddTaskModalProps) =>{
                     )}
                 />
 
+                <Controller
+                    name='notification'
+                    control={control}
+                    render={({ field }) => (
+                        <TextField
+                            type='datetime-local'
+                            {...field}
+                            fullWidth
+                            margin="dense"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                        />
+
+                    )}
+                />
                 <Controller
                     name='notification'
                     control={control}

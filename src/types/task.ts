@@ -4,7 +4,8 @@ export interface Task {
     completed : boolean
     createdAt: Date;
     notification: Date;
-    priority: string
+    priority: string;
+    categories: string
 }   
 
 export interface priorityType{
