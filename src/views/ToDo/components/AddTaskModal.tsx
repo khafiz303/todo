@@ -39,7 +39,7 @@ export const AddTaskModal = ({open, onClose, onSubmit}: AddTaskModalProps) =>{
         handleSubmit,
         control, 
         reset,
-        formState: {errors}
+        // formState: {errors}
     } =useForm<Omit<Task, 'id'>>({
         defaultValues: {title : '' , completed: false , createdAt: new Date(), notification: new Date(), categories: 'general' , priority : 'low'},
         resolver: yupResolver(schema)

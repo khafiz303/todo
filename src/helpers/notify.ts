@@ -1,3 +1,4 @@
+import type { Task } from "@/types/task";
 export const requestNotification =  async(): Promise<boolean> => {
     if(!("Notification" in window)){
         console.warn('браузер не поддерживает уведомления')
@@ -31,18 +32,18 @@ export const handleSchedule = async ()=> {
     }
 } 
 
-export const scheduleNotification = (task: Task) => {
-    if (!task.notificationTime) return;
+export const scheduleNotification = (task: Omit<Task, 'id'>) => {
+    if (!task.notification) return;
   
-    const target = new Date(task.notificationTime).getTime();
+    const target = new Date(task.notification).getTime();
     const now = Date.now();
     const delay = target - now;
   
     if (delay > 0) {
       setTimeout(() => {
         showNotification(task.title, {
-          body: "Время пришло для задачи!",
-          icon: "./icon.png",
+          body: "!",
+          icon: "@/assets/adn.svg",
         });
       }, delay);
     }
