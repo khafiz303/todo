@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { BarChart } from '@mui/x-charts/BarChart';
+import { BarChart } from '@mui/x-charts';
 // import { dataset, valueFormatter } from '@/dataset/';
 import Stack from '@mui/material/Stack';
 import FormControl from '@mui/material/FormControl';

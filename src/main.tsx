@@ -5,12 +5,16 @@ import { BrowserRouter } from 'react-router-dom'; //RouterProvider //RouterProvi
 import { store} from '@/redux/store';
 import {App} from '@/App';
 import { ThemeProviderWrapper } from './theme/ThemeProviderWrapper';
-// import { registerSW} from 'virtual:pwa-register'
+import { registerSW } from "virtual:pwa-register";
 
-// const updateSW = registerSW({
-//   onNeedRefresh() {},
-//   onOfflineReady() {},
-// })
+export const updateSW = registerSW({
+  onNeedRefresh() {
+    console.log("⚡ Новая версия доступна!");
+  },
+  onOfflineReady() {
+    console.log("✅ Приложение готово работать оффлайн");
+  },
+});
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
