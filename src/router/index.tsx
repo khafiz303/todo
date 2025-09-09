@@ -4,6 +4,7 @@ import type { RouteObject } from 'react-router-dom'; // ✅ импортим т�
 import { TaskPage } from '@/views/TaskPage';
 import  {ToDoPage} from '@/views/ToDo/ToDoPage';
 import { NotFoundPage } from '@/views/NotFoundPage';
+import  SwipeableDrawer  from '@/components/SwipeableEdgeDrawer';
 
 const routes: RouteObject[] = [
   {
@@ -17,6 +18,10 @@ const routes: RouteObject[] = [
   {
     path: '*',
     element: <NotFoundPage />,
+  },
+    {
+    path: '/bar',
+    element: <SwipeableDrawer  tasks = {[]}/>,
   },
 ];
   
