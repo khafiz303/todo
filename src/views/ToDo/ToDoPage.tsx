@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import {scheduleNotification} from '@/helpers/notify'
 import { useAppDispatch , useAppSelector } from '@/redux/hooks'
-import { Box , Button, Typography } from '@mui/material'
+import { Box , Button, Typography, MenuItem , TextField } from '@mui/material'
 import { useGetTasksQuery,
             useDeleteTaskMutation,
             useUpdateTaskMutation,
@@ -12,6 +12,7 @@ import { Error, Loading , Empty } from '@/components/StatusPage'
 import type { Task } from '@/types/task'
 import { AddTaskModal } from './components/AddTaskModal'
 import { closeAddTaskModal, openAddTaskModal } from '@/redux/features/toDoSlice'
+import { Controller } from 'react-hook-form'
 
 export const ToDoPage = ()=> {
     const [filteredTasks , setFilteredTasks] = useState<Task[] | null>(null);
@@ -26,10 +27,10 @@ export const ToDoPage = ()=> {
 
 const filterTasks = (info: string | string[]) => {
 
-  if (!tasks) {
+    if (!tasks) {
     setFilteredTasks([]);
     return;
-  }
+    }
 
     if (Array.isArray(info)) {
         const filtered = tasks.filter(task =>
@@ -49,8 +50,8 @@ const filterTasks = (info: string | string[]) => {
 
     setFilteredTasks(filtered);
     return;
-  }
-};
+    }
+    };
     const handleDelete = async(id: number)=>{
         try{
             await deleteTask(id).unwrap()
@@ -77,6 +78,10 @@ const filterTasks = (info: string | string[]) => {
     const openModal = ()=> {
         dispatch(openAddTaskModal())
         
+    }
+
+    const filterByCategories = (filter: string) => {
+        return tasks?.filter(task => filter === task.categories)
     }
 
     if(isLoading) return <Loading/>
@@ -112,6 +117,24 @@ const filterTasks = (info: string | string[]) => {
                         Задачи без срока
                     </Typography>
                 </Button>
+                <Controller
+                    name='priority'
+                    render={({field}) => (
+                        <TextField
+                            {...field}
+                            select
+                            label='Приоритет'
+                            fullWidth
+                            margin='dense'
+                            onChange={(e)=>filterByCategories(e.target.value) }
+                        >
+                            <MenuItem value="general">Общий</MenuItem>
+                            <MenuItem value="edu">Образование(саморазвитие)</MenuItem>
+                            <MenuItem value="job">Работа</MenuItem>
+                            <MenuItem value="personal">Личное</MenuItem>
+                        </TextField>
+                    )}
+                />
             </Box>
 
             

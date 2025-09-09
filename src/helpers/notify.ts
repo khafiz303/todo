@@ -39,7 +39,7 @@ export const scheduleNotification = (task: Omit<Task, 'id'>) => {
     const now = Date.now();
     const delay = target - now;
   
-    if (delay > 0) {
+    if (delay > 0) {          
       setTimeout(() => {
         showNotification(task.title, {
           body: "!",
