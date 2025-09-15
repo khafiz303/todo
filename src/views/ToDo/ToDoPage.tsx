@@ -14,21 +14,20 @@ import { AddTaskModal } from './components/AddTaskModal'
 import { closeAddTaskModal, openAddTaskModal } from '@/redux/features/toDoSlice'
 import { Controller } from 'react-hook-form'
 
-export const ToDoPage = ()=> {
+export const ToDoPage = () => {
     const [filteredTasks , setFilteredTasks] = useState<Task[] | null>(null);
-
     const { data: tasks, error, isLoading } = useGetTasksQuery()
     const [deleteTask] = useDeleteTaskMutation()
     const [updateTask] = useUpdateTaskMutation()
     const [createTask] = useAddTaskMutation()
-
+    
     const isModalOpen = useAppSelector(state => state.ui.isAddTaskModalOpen)
     const dispatch = useAppDispatch()
 
 const filterTasks = (info: string | string[]) => {
 
     if (!tasks) {
-    setFilteredTasks([]);
+        setFilteredTasks([]);
     return;
     }
 
@@ -89,6 +88,8 @@ const filterTasks = (info: string | string[]) => {
     if(error) {
         return <Error retry={()=> window.location.reload()}/>
     }
+
+
     return(
         <Box p={2}>
             <Box mb={2}>

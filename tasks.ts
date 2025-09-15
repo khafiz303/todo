@@ -11,8 +11,8 @@ const userF: User[] = users.filter(user => user.tasks.some(task=>
     task.completed === false && (task.priority === 'high' || task.priority === 'medium') ))
 
 
-const sortedUsers: User[] = userF.sort((a, b) => {
+export const sortedUsers: User[] = userF.sort((a, b) => {
     const dateA = a.tasks[0]?.dueDate ? new Date(a.tasks[0].dueDate).getTime() : Infinity;
     const dateB = b.tasks[0]?.dueDate ? new Date(b.tasks[0].dueDate).getTime() : Infinity;
-    return dateA - dateB; // по возрастанию
+    return dateA - dateB;
 });
