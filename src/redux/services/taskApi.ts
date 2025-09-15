@@ -32,6 +32,13 @@ export const taskApi = createApi({
                 method: "DELETE"
             }),
             invalidatesTags: ["Tasks"]
+        }),
+        getById: builder.query<Task, string>({
+            query: (id) => ({
+                url: `/task/${id}`,
+                method: 'GET'
+            }),
+            providesTags: ['Tasks']
         })
     })
 })
