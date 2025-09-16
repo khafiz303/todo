@@ -34,18 +34,17 @@ export const handleSchedule = async ()=> {
 
 export const scheduleNotification = (task: Omit<Task, 'id'>) => {
     if (!task.notification) return;
-  
+
     const target = new Date(task.notification).getTime();
     const now = Date.now();
     const delay = target - now;
-  
+
     if (delay > 0) {          
-      setTimeout(() => {
+        setTimeout(() => {
         showNotification(task.title, {
-          body: "!",
-          icon: "@/assets/adn.svg",
+            body: "!",
+            icon: "@/assets/adn.svg",
         });
-      }, delay);
+        }, delay);
     }
-  };
-  
+};

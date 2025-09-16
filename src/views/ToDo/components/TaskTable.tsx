@@ -1,5 +1,6 @@
 import dayjs from 'dayjs'
 import { useEffect } from 'react'
+import { enqueueSnackbar } from 'notistack'
 import {requestNotification, scheduleNotification} from '@/helpers/notify'
 import{
     Table,
@@ -28,6 +29,8 @@ export const TaskTable = ({tasks, onDelete, onToggle}: TaskTableProps) => {
     useEffect(()=> {
         didMount()
     }, [])
+
+    enqueueSnackbar('')
     return(
         <Table>
             <TableHead>

@@ -5,7 +5,9 @@ import { Box , Button, Typography, MenuItem , TextField } from '@mui/material'
 import { useGetTasksQuery,
             useDeleteTaskMutation,
             useUpdateTaskMutation,
-            useAddTaskMutation
+            useAddTaskMutation,
+            useLazyGetByIdQuery,
+            useChangeStatusMutation,
         } from '@/redux/services/taskApi'
 import { TaskTable } from './components/TaskTable'
 import { Error, Loading , Empty } from '@/components/StatusPage'
@@ -13,17 +15,28 @@ import type { Task } from '@/types/task'
 import { AddTaskModal } from './components/AddTaskModal'
 import { closeAddTaskModal, openAddTaskModal } from '@/redux/features/toDoSlice'
 import { Controller } from 'react-hook-form'
+import { enqueueSnackbar } from 'notistack'
 
 export const ToDoPage = () => {
     const [filteredTasks , setFilteredTasks] = useState<Task[] | null>(null);
     const { data: tasks, error, isLoading } = useGetTasksQuery()
+    const [triggerGetUserById, { isLoading: isUserLoading }] = useLazyGetByIdQuery()
+    const [changeStatus, { isLoading: isChangeStatusLoading }] = useChangeStatusMutation()
     const [deleteTask] = useDeleteTaskMutation()
     const [updateTask] = useUpdateTaskMutation()
     const [createTask] = useAddTaskMutation()
-    
+
     const isModalOpen = useAppSelector(state => state.ui.isAddTaskModalOpen)
     const dispatch = useAppDispatch()
 
+    const handleUpdate = async () => {
+        try{
+            await changeStatus({id: 1}).unwrap()
+            enqueueSnackbar('Обновлен')
+        }catch(e){
+            enqueueSnackbar(`Error ${e}`)
+        }
+    }
 const filterTasks = (info: string | string[]) => {
 
     if (!tasks) {
@@ -54,9 +67,9 @@ const filterTasks = (info: string | string[]) => {
     const handleDelete = async(id: number)=>{
         try{
             await deleteTask(id).unwrap()
-        }catch(e){  
+        }catch(e){   
             console.error(e)
-        }
+        } 
     }
     const handleToggle = async (id : number, data: Task )=> {
         try{
@@ -88,7 +101,7 @@ const filterTasks = (info: string | string[]) => {
     if(error) {
         return <Error retry={()=> window.location.reload()}/>
     }
-
+    if(isChangeStatusLoading) return <Loading/>
 
     return(
         <Box p={2}>
@@ -147,6 +160,15 @@ const filterTasks = (info: string | string[]) => {
 
             >
                 Добавить задачу
+            </Button>
+
+            <Button
+                variant='outlined'
+                color='secondary'
+                sx={{mb:2}}
+                onClick={handleUpdate}
+            >
+                Получить пользователя
             </Button>
             {<TaskTable
                 tasks={filteredTasks ?? tasks}

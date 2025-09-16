@@ -4,11 +4,13 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 interface UiState {
   isAddTaskModalOpen: boolean
   selectedTaskId?: number
+  form: boolean
 }
 
 const initialState: UiState = {
   isAddTaskModalOpen: false,
   selectedTaskId: undefined,
+  form: false
 }
 
 export const uiSlice = createSlice({
@@ -24,6 +26,9 @@ export const uiSlice = createSlice({
     setSelectedTaskId: (state, action: PayloadAction<number | undefined>) => {
       state.selectedTaskId = action.payload
     },
+    closeSelectForm: (state) => {
+      state.form = false
+    }
   },
 })
 

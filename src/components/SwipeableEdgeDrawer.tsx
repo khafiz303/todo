@@ -55,7 +55,11 @@ export default function SwipeableEdgeDrawer(props: Props) {
     setOpen(newOpen);
   };
 
-  // This is used only for the example
+  const chatSend = async (e: number):Promise<unknown> => {
+    const  res = await createImageBitmap.arguments(e)
+    return res
+  }
+  chatSend(1)
   const container = window !== undefined ? () => window().document.body : undefined;
   const chooseGroup = (choice : string)=>{
     const FilterTasks = props.tasks?.filter(task => task.categories === choice)
@@ -87,6 +91,7 @@ export default function SwipeableEdgeDrawer(props: Props) {
             <MenuItem value='edu'>Образование(саморазвитие)</MenuItem>
             <MenuItem value='job'>Работа</MenuItem>
             <MenuItem value='personal'>Личное</MenuItem>
+            <MenuItem value='inter'>INT</MenuItem>
 
         </TextField>
       </Box>
@@ -133,9 +138,9 @@ export default function SwipeableEdgeDrawer(props: Props) {
         ))}
         </StyledBox>
         <StyledBox sx={{ px: 2, pb: 2, height: '100%', overflow: 'auto' }}>
-                <Skeleton variant="rectangular" height="100%" />
-            </StyledBox>
-            </SwipeableDrawer>
+          <Skeleton variant="rectangular" height="100%" />
+        </StyledBox>
+      </SwipeableDrawer>
         </Root>
         );
         }
