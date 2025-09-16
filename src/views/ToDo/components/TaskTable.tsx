@@ -1,22 +1,16 @@
-// import React from 'react'
-// import type {FC} from 'react'
+import dayjs from 'dayjs'
+import { useEffect } from 'react'
+import { enqueueSnackbar } from 'notistack'
+import {requestNotification, scheduleNotification} from '@/helpers/notify'
 import{
-    // TableContainer,
     Table,
     TableHead,
     TableBody,
     TableRow,
     TableCell,
-    // Paper,
     Checkbox,
-    // IconButton,
-    // Typography,
-    // Tooltip
 } from '@mui/material'
-
 import DeleteIcon from '@mui/icons-material/Delete'
-// import EditIcaon from '@mui/icons-material/Edit'
-
 import type { Task } from '@/types/task'
 
 type TaskTableProps = {
@@ -25,37 +19,62 @@ type TaskTableProps = {
     onToggle: (id: number , data: Task) => void
 }
 export const TaskTable = ({tasks, onDelete, onToggle}: TaskTableProps) => {
+    useEffect(()=> {
+        if(tasks?.length > 0)
+        tasks.forEach(scheduleNotification)
+    }, [tasks])
+    const didMount = ()=> {
+        requestNotification()
+    }
+    useEffect(()=> {
+        didMount()
+    }, [])
+
+    enqueueSnackbar('')
     return(
         <Table>
             <TableHead>
                 <TableRow>
+                <TableCell>Название</TableCell>
                     <TableCell>Статус</TableCell>
-                    <TableCell>Название</TableCell>
-                    <TableCell>Действия</TableCell>
                     <TableCell>Дата создания</TableCell>
                     <TableCell>Уведомление (time)</TableCell>
+                    <TableCell>Группа(вид)</TableCell>
+                    <TableCell>Важность</TableCell>
+                    <TableCell>Действия</TableCell>
+
                 </TableRow>
             </TableHead>
             <TableBody>
                 {tasks.map(task => (
                     <TableRow key={task.id}>
                         <TableCell>
-                            <Checkbox
-                                checked={task.completed}
-                                onChange={()=> onToggle(task.id , { ...task, completed: !task.completed })}
-                            />
-                        </TableCell>
-                        <TableCell>
                             {task.title}
                         </TableCell>
                         <TableCell>
-                            <DeleteIcon onClick={()=> onDelete(task.id)}/>
+                            <Checkbox
+                                checked={task.completed}
+                                onChange={()=> onToggle(Number(task.id) , { ...task, completed: !task.completed })}
+                            />
                         </TableCell>
                         <TableCell>
-                            {task.createdAt.toLocaleString()}
+                            {dayjs(task.createdAt).format("DD.MM.YYYY,  HH:mm")}
                         </TableCell>
                         <TableCell>
-                            {task.notification.toLocaleString()}
+                            {dayjs(task.notification).format("DD.MM.YYYY,  HH:mm")
+                            }
+                        </TableCell>
+                        <TableCell>
+                            {task.categories}
+                        </TableCell>
+                        <TableCell>
+                            {task.priority}
+                        </TableCell>
+                        <TableCell>
+                            <DeleteIcon 
+                                onClick={()=> onDelete(task.id)}
+                                sx={{cursor: "pointer"}}
+                            />
                         </TableCell>
                     </TableRow>
                 ))}

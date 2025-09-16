@@ -6,6 +6,7 @@ import{
     TextField,
     Button,
     Checkbox,
+    MenuItem,
     FormControlLabel
 } from '@mui/material'
 
@@ -17,16 +18,18 @@ import * as yup from 'yup'
 import type { Task } from '@/types/task'
 
 const schema = yup.object({
-    title: yup.string().required('Введите название задачи'),
+    title: yup.string().required('Введите название'),
     completed: yup.boolean().default(false),
     createdAt: yup.date().default(()=> new Date()),
-    notification: yup.date().default(()=> new Date())
+    notification: yup.date().required('Указите дату выполнение'),
+    priority: yup.string().oneOf(['high' , 'medium' ,  'low']).required('Введите важность задачи'),
+    categories: yup.string().oneOf(['general' , 'job' , 'edu' , 'personal']).required('Категория')
 }).required();
 
 
 type AddTaskModalProps = {
+    onClose: () => void
     open : boolean,
-    onClose: ()=> void;
     onSubmit: (task: Omit<Task, 'id'>) => void
 }
 
@@ -38,7 +41,7 @@ export const AddTaskModal = ({open, onClose, onSubmit}: AddTaskModalProps) =>{
         reset,
         // formState: {errors}
     } =useForm<Omit<Task, 'id'>>({
-        defaultValues: {title : '' , completed: false , createdAt: new Date(), notification: new Date()},
+        defaultValues: {title : '' , completed: false , createdAt: new Date(), notification: new Date(), categories: 'general' , priority : 'low'},
         resolver: yupResolver(schema)
     })
 
@@ -46,7 +49,7 @@ export const AddTaskModal = ({open, onClose, onSubmit}: AddTaskModalProps) =>{
         onSubmit(data)
         reset()
         onClose()
-
+        
     }
 
     return(
@@ -95,13 +98,51 @@ export const AddTaskModal = ({open, onClose, onSubmit}: AddTaskModalProps) =>{
                         <TextField
                             type='datetime-local'
                             {...field}
+                            label="Уведомления и окончания"
                             fullWidth
                             margin="dense"
                             InputLabelProps={{
-                                shrink: true,
+                                shrink: true
                             }}
+
                         />
 
+                    )}
+                />
+
+                <Controller
+                    name='priority'
+                    control={control}
+                    render={({field}) => (
+                        <TextField
+                            {...field}
+                            select
+                            label='Приоритет'
+                            fullWidth
+                            margin='dense'
+                        >
+                            <MenuItem value="low">Низкий</MenuItem>
+                            <MenuItem value="medium">Средний</MenuItem>
+                            <MenuItem value="high">Высокий</MenuItem>
+                        </TextField>
+                    )}
+                />
+                <Controller
+                    name='categories'
+                    control={control}
+                    render={({field}) => (
+                        <TextField
+                            {...field}
+                            label='Вид'
+                            select
+                            fullWidth
+                            margin='dense'
+                        >
+                            <MenuItem value='general'>Общий</MenuItem>
+                            <MenuItem value='personal'>Личный</MenuItem>
+                            <MenuItem value='job' >Работа</MenuItem>
+                            <MenuItem value='edu' >Оброзование(Саморазвитие)</MenuItem>
+                        </TextField>
                     )}
                 />
             </DialogContent>

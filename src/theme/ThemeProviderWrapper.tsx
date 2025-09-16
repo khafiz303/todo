@@ -10,13 +10,14 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
-export const useThemeContext = ()=>{
+export const UseThemeContext = ()=>{
     const context = useContext(ThemeContext)
     if(!context) throw new Error('useThemeContext must be used within ThemeProviderWrapper')
         return context
 }
 
-export const ThemeProviderWrapper: React.FC<{children: React.ReactNode}> = ({children}) =>{
+// export const ThemeProviderWrapper: React.FC<{children: React.ReactNode}> = ({children}) =>{
+export const ThemeProviderWrapper = ({children}: {children: React.ReactNode}) => {
     const [isDarkMode, setIsDarkMode] = useState(false)
 
     const toggleTheme =useCallback(()=> {setIsDarkMode((prev) => !prev )}, [])

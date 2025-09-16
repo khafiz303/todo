@@ -1,14 +1,40 @@
 {
   "task": [
     {
-      "title": "Задача 2",
+      "id": "6cc3",
+      "title": "a",
       "completed": false,
-      "id": "4f48"
+      "createdAt": "2025-09-08T06:19:16.011Z",
+      "notification": "2025-09-08T06:19:16.011Z",
+      "categories": "general",
+      "priority": "low"
     },
     {
-      "title": "Задача 3",
+      "id": "07e5",
+      "categories": "general",
+      "priority": "low",
+      "notification": "2025-09-08T06:31:00.000Z",
+      "createdAt": "2025-09-08T06:30:15.531Z",
       "completed": false,
-      "id": "9706"
+      "title": "a"
+    },
+    {
+      "id": "e157",
+      "categories": "general",
+      "priority": "low",
+      "notification": "2025-09-08T06:34:00.000Z",
+      "createdAt": "2025-09-08T06:33:54.896Z",
+      "completed": false,
+      "title": "a"
+    },
+    {
+      "id": "63f1",
+      "categories": "general",
+      "priority": "low",
+      "notification": "2025-09-08T06:38:00.000Z",
+      "createdAt": "2025-09-08T06:37:05.838Z",
+      "completed": false,
+      "title": "a"
     }
   ]
 }
