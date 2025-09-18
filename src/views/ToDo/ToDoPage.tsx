@@ -101,7 +101,7 @@ const filterTasks = (info: string | string[]) => {
     if(error) {
         return <Error retry={()=> window.location.reload()}/>
     }
-    if(isChangeStatusLoading) return <Loading/>
+    if(isChangeStatusLoading) return <Loading/> 
 
     return(
         <Box p={2}>
@@ -160,6 +160,13 @@ const filterTasks = (info: string | string[]) => {
 
             >
                 Добавить задачу
+            </Button>
+
+            <Button 
+                onClick={()=>triggerGetUserById('1')}
+                loading={isUserLoading}
+            >
+                GET
             </Button>
 
             <Button
