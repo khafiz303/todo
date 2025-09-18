@@ -1,7 +1,7 @@
 import { Button } from '@mui/material'
 import { useGetTasksQuery, useAddTaskMutation } from '@/redux/services/toDo'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
-import { openAddTaskModal, closeAddTaskModal } from '@/redux/features/toDoSlice'
+import { setModal } from '@/redux/features/toDoSlice'
 
 export const TaskPage = () => {
   const dispatch = useAppDispatch()
@@ -14,7 +14,7 @@ export const TaskPage = () => {
 
   return (
     <div>
-      <Button onClick={() => dispatch(openAddTaskModal())}>Добавить задачу</Button>
+      <Button onClick={() => dispatch(setModal(true))}>Добавить задачу</Button>
 
       {isAddTaskModalOpen && (
         <div>
@@ -22,7 +22,7 @@ export const TaskPage = () => {
           <Button
             onClick={async () => {
               await addTask({ title: 'Новая задача', completed: false })
-              dispatch(closeAddTaskModal())
+              dispatch(setModal(false))
             }}
           >
             Сохранить

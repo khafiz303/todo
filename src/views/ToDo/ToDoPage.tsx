@@ -2,6 +2,7 @@ import {useState} from 'react'
 import {scheduleNotification} from '@/helpers/notify'
 import { useAppDispatch , useAppSelector } from '@/redux/hooks'
 import { Box , Button, Typography, MenuItem , TextField } from '@mui/material'
+import LoadingButton from '@mui/lab/LoadingButton';
 import { useGetTasksQuery,
             useDeleteTaskMutation,
             useUpdateTaskMutation,
@@ -13,7 +14,7 @@ import { TaskTable } from './components/TaskTable'
 import { Error, Loading , Empty } from '@/components/StatusPage'
 import type { Task } from '@/types/task'
 import { AddTaskModal } from './components/AddTaskModal'
-import { closeAddTaskModal, openAddTaskModal } from '@/redux/features/toDoSlice'
+import { setModal } from '@/redux/features/toDoSlice'
 import { Controller } from 'react-hook-form'
 import { enqueueSnackbar } from 'notistack'
 
@@ -88,7 +89,7 @@ const filterTasks = (info: string | string[]) => {
     }
 
     const openModal = ()=> {
-        dispatch(openAddTaskModal())
+        dispatch(setModal(true))
         
     }
 
@@ -162,6 +163,13 @@ const filterTasks = (info: string | string[]) => {
                 Добавить задачу
             </Button>
 
+            <LoadingButton
+                onClick={()=> {triggerGetUserById('1')}}
+                loading={isUserLoading}
+            >
+                Get
+            </LoadingButton>
+
             <Button
                 variant='outlined'
                 color='secondary'
@@ -178,7 +186,7 @@ const filterTasks = (info: string | string[]) => {
             />}
             <AddTaskModal
                 open={isModalOpen}
-                onClose={()=> dispatch(closeAddTaskModal())}
+                onClose={()=> dispatch(setModal(false))}
                 onSubmit={handleCreate}
             />
         </Box>
