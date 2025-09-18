@@ -2,7 +2,7 @@ import { Button } from '@mui/material'
 import { useGetTasksQuery, useAddTaskMutation } from '@/redux/services/toDo'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { openAddTaskModal, closeAddTaskModal } from '@/redux/features/toDoSlice'
-
+import { openDB } from '@/indexedDB';
 export const TaskPage = () => {
   const dispatch = useAppDispatch()
   const { isAddTaskModalOpen } = useAppSelector((state) => state.ui)
@@ -11,7 +11,7 @@ export const TaskPage = () => {
   const [addTask] = useAddTaskMutation()
 
   if (isLoading) return <p>Loading...</p>
-
+  openDB()
   return (
     <div>
       <Button onClick={() => dispatch(openAddTaskModal())}>Добавить задачу</Button>

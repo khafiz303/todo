@@ -9,10 +9,10 @@ import { registerSW } from "virtual:pwa-register";
 
 export const updateSW = registerSW({
   onNeedRefresh() {
-    console.log("⚡ Новая версия доступна!");
+    alert("⚡ Новая версия доступна!");
   },
   onOfflineReady() {
-    console.log("✅ Приложение готово работать оффлайн");
+    alert("✅ Приложение готово работать оффлайн");
   },
 });
 
