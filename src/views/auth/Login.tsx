@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router'
+import { useState } from 'react'
 import { TextField, Box, Button, Typography } from '@mui/material'
-import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { useForm , Controller } from 'react-hook-form'
 import type { SubmitHandler } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -16,10 +14,8 @@ const schema = yup.object({
 })
 
 export const Login = () => {
-    const navigate = useNavigate()
     const [login, setLogin] = useState(true)
     const [createUser, {isLoading}] = useCreateUserMutation()
-    const user = useAppSelector(state => state.auth.user)
 
     type LoginFormValues = yup.InferType<typeof schema>;
 
@@ -38,14 +34,6 @@ export const Login = () => {
         reset()
 
     }
-
-    useAppDispatch()
-
-    useEffect(() => {
-        if(user?.access_token) {
-            navigate('profile')
-        }
-    }, [user?.access_token])
 
     return(
         <Box>
@@ -81,7 +69,6 @@ export const Login = () => {
 
             <Button 
                 onClick={handleSubmit(handleFormSubmit)} variant='contained' color='secondary'
-                // loading={isLoading}
                 disabled={isLoading}
             >
                 Войти
