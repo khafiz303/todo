@@ -18,15 +18,15 @@ export const taskApi = createApi({
             }),
             invalidatesTags: ["Tasks"]
         }),
-        updateTask: builder.mutation<Task, {id: number; data: Partial<Task>}>({
-            query: ({id , data}) => ({
-                url: `/task/${id}`, 
+        updateTask: builder.mutation<Task, {data: Partial<Task>}>({
+            query: ({data}) => ({
+                url: `/task/${data.id}`, 
                 method: "PUT",
                 body: data
             }),
             invalidatesTags: ["Tasks"]
         }),
-        deleteTask: builder.mutation<{success: boolean , id: number}, number>({
+        deleteTask: builder.mutation<{success: boolean , id: string}, string>({
             query: (id) => ({
                 url: `/task/${id}`,
                 method: "DELETE"
@@ -39,13 +39,6 @@ export const taskApi = createApi({
                 method: 'GET',
             }),
             providesTags: ['Tasks']
-        }),
-        changeStatus: builder.mutation<Task, Partial<Task>>({
-            query: (body) => ({
-                url: `task/status`,
-                method: 'PUTCH',
-                body,
-            })
         }),
         storeMessage: builder.query<Task, string>({
             query: (id) => ({
@@ -64,5 +57,4 @@ export const {
     useUpdateTaskMutation,
     useDeleteTaskMutation,
     useLazyGetByIdQuery,
-    useChangeStatusMutation,
 } = taskApi

@@ -2,7 +2,7 @@ import { ThemeProvider , CssBaseline } from '@mui/material'
 import { getTheme } from '@/theme/index'
 import {useState , useCallback, useContext, createContext , useMemo} from 'react'
 
-type ThemeMode = 'light' | 'dark'
+type ThemeMode =  'dark' | 'light'
 interface ThemeContextType {
     mode: ThemeMode;
     toggleTheme: () => void
@@ -18,7 +18,7 @@ export const UseThemeContext = ()=>{
 
 // export const ThemeProviderWrapper: React.FC<{children: React.ReactNode}> = ({children}) =>{
 export const ThemeProviderWrapper = ({children}: {children: React.ReactNode}) => {
-    const [isDarkMode, setIsDarkMode] = useState(false)
+    const [isDarkMode, setIsDarkMode] = useState(true)
 
     const toggleTheme =useCallback(()=> {setIsDarkMode((prev) => !prev )}, [])
     const mode: ThemeMode = isDarkMode ? 'dark' : 'light'

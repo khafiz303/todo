@@ -2,27 +2,22 @@ import {useState} from 'react'
 import {scheduleNotification} from '@/helpers/notify'
 import { useAppDispatch , useAppSelector } from '@/redux/hooks'
 import { Box , Button, Typography, MenuItem , TextField } from '@mui/material'
-import LoadingButton from '@mui/lab/LoadingButton';
 import { useGetTasksQuery,
             useDeleteTaskMutation,
             useUpdateTaskMutation,
             useAddTaskMutation,
             useLazyGetByIdQuery,
-            useChangeStatusMutation,
         } from '@/redux/services/taskApi'
 import { TaskTable } from './components/TaskTable'
 import { Error, Loading , Empty } from '@/components/StatusPage'
 import type { Task } from '@/types/task'
 import { AddTaskModal } from './components/AddTaskModal'
 import { setModal } from '@/redux/features/toDoSlice'
-import { Controller } from 'react-hook-form'
 import { enqueueSnackbar } from 'notistack'
 
 export const ToDoPage = () => {
     const [filteredTasks , setFilteredTasks] = useState<Task[] | null>(null);
     const { data: tasks, error, isLoading } = useGetTasksQuery()
-    const [triggerGetUserById, { isLoading: isUserLoading }] = useLazyGetByIdQuery()
-    const [changeStatus, { isLoading: isChangeStatusLoading }] = useChangeStatusMutation()
     const [deleteTask] = useDeleteTaskMutation()
     const [updateTask] = useUpdateTaskMutation()
     const [createTask] = useAddTaskMutation()
@@ -30,14 +25,7 @@ export const ToDoPage = () => {
     const isModalOpen = useAppSelector(state => state.ui.isAddTaskModalOpen)
     const dispatch = useAppDispatch()
 
-    const handleUpdate = async () => {
-        try{
-            await changeStatus({id: 1}).unwrap()
-            enqueueSnackbar('Обновлен')
-        }catch(e){
-            enqueueSnackbar(`Error ${e}`)
-        }
-    }
+
 const filterTasks = (info: string | string[]) => {
 
     if (!tasks) {
@@ -65,16 +53,16 @@ const filterTasks = (info: string | string[]) => {
     return;
     }
     };
-    const handleDelete = async(id: number)=>{
+    const handleDelete = async(id: string)=>{
         try{
-            await deleteTask(id).unwrap()
+            await deleteTask(id.toString()).unwrap()
         }catch(e){   
             console.error(e)
         } 
     }
-    const handleToggle = async (id : number, data: Task )=> {
+    const handleToggle = async (data: Task )=> {
         try{
-            await updateTask({id, data}).unwrap()
+            await updateTask({data}).unwrap()
         }catch(e){  
             console.error(e)
         }
@@ -90,7 +78,6 @@ const filterTasks = (info: string | string[]) => {
 
     const openModal = ()=> {
         dispatch(setModal(true))
-        
     }
 
     const filterByCategories = (filter: string) => {
@@ -98,11 +85,14 @@ const filterTasks = (info: string | string[]) => {
     }
 
     if(isLoading) return <Loading/>
-    if(!tasks || tasks.length === 0 ) return <Empty addTasks={true} openModal={openModal}/>
+    if(!tasks || tasks.length === 0 ) 
+        if(!isModalOpen){
+         <Empty addTasks={true} openModal={openModal}/>
+
+        }
     if(error) {
         return <Error retry={()=> window.location.reload()}/>
     }
-    if(isChangeStatusLoading) return <Loading/>
 
     return(
         <Box p={2}>
@@ -111,10 +101,10 @@ const filterTasks = (info: string | string[]) => {
                     Список задач
                 </Typography>
                 <Typography variant='h5' mb={2}>
-                    Всего задач на сегодня: {tasks.filter(task => new Date(task.notification).toDateString() === new Date().toDateString()).length}
+                    Всего задач на сегодня: {tasks?.filter(task => new Date(task.notification).toDateString() === new Date().toDateString()).length}
                 </Typography>
                 <Typography variant='h5' mb={2}>
-                    Завершенных задач сегодня: {tasks.filter(task => task.completed && new Date(task.notification).toDateString() === new Date().toDateString()).length}
+                    Завершенных задач сегодня: {tasks?.filter(task => task.completed && new Date(task.notification).toDateString() === new Date().toDateString()).length}
                 </Typography>
 
                 <Button>
@@ -132,25 +122,25 @@ const filterTasks = (info: string | string[]) => {
                         Задачи без срока
                     </Typography>
                 </Button>
-                <Controller
-                    name='priority'
-                    render={({field}) => (
-                        <TextField
-                            {...field}
-                            select
-                            label='Приоритет'
-                            fullWidth
-                            margin='dense'
-                            onChange={(e)=>filterByCategories(e.target.value) }
-                        >
-                            <MenuItem value="general">Общий</MenuItem>
-                            <MenuItem value="edu">Образование(саморазвитие)</MenuItem>
-                            <MenuItem value="job">Работа</MenuItem>
-                            <MenuItem value="personal">Личное</MenuItem>
-                        </TextField>
-                    )}
-                />
+                    <TextField
+                        select
+                        label='Приоритет'
+                        fullWidth
+                        margin='dense'
+                        onChange={(e)=>filterByCategories(e.target.value) }
+                    >
+                        <MenuItem value="general">Общий</MenuItem>
+                        <MenuItem value="edu">Образование(саморазвитие)</MenuItem>
+                        <MenuItem value="job">Работа</MenuItem>
+                        <MenuItem value="personal">Личное</MenuItem>
+                    </TextField>
             </Box>
+            <AddTaskModal
+                open={isModalOpen}
+                onClose={()=> dispatch(setModal(false))}
+                onSubmit={handleCreate}
+            />
+            
 
             
             <Button
@@ -163,32 +153,13 @@ const filterTasks = (info: string | string[]) => {
                 Добавить задачу
             </Button>
 
-            <LoadingButton
-                onClick={()=> {triggerGetUserById('1')}}
-                loading={isUserLoading}
-            >
-                Get
-            </LoadingButton>
-
-            <Button
-                variant='outlined'
-                color='secondary'
-                sx={{mb:2}}
-                onClick={handleUpdate}
-            >
-                Получить пользователя
-            </Button>
             {<TaskTable
-                tasks={filteredTasks ?? tasks}
+                tasks={filteredTasks ?? tasks ?? []}
                 onDelete={handleDelete}
                 onToggle={handleToggle}
                 
             />}
-            <AddTaskModal
-                open={isModalOpen}
-                onClose={()=> dispatch(setModal(false))}
-                onSubmit={handleCreate}
-            />
+        
         </Box>
     )
 }

@@ -44,7 +44,7 @@ const commonTypography = {
 }
 const commonShape  = {borderRadius : 8 }
 
-export const getTheme  = (mode: 'light' | 'dark' )=>{
+export const getTheme  = (mode: 'dark'  | 'light' )=>{
     const palette = mode === 'light'
     ? {
         mode: 'light' as const,
@@ -67,7 +67,23 @@ export const getTheme  = (mode: 'light' | 'dark' )=>{
     return createTheme({
         palette,
         typography: commonTypography,
-        shape: commonShape
+        shape: commonShape,
+        components: {
+            MuiCssBaseline:{
+                styleOverrides: {
+                    body: {
+                        height: '100vh',
+                        width: '100vw',
+                        backgroundImage:  "url('src/assets/background.jpg')",
+                        backgroundSize: 'cover',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center center',
+                    }
+                }
+            }
+
+
+        }
 
     })
 }

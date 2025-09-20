@@ -15,7 +15,7 @@ export const Navbar: React.FC = React.memo(() => {
     <AppBar position="static" color="primary">
       <Toolbar>
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          App
+          SW
         </Typography>
 
         <IconButton color="inherit" onClick={handleToggleTheme}>

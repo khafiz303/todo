@@ -9,8 +9,9 @@ export const requestNotification =  async(): Promise<boolean> => {
 
     if(permission === 'default'){
         permission = await Notification.requestPermission();
-    }
 
+    }
+    
     return permission === 'granted';
 }
 
@@ -38,13 +39,16 @@ export const scheduleNotification = (task: Omit<Task, 'id'>) => {
     const target = new Date(task.notification).getTime();
     const now = Date.now();
     const delay = target - now;
+    // console.log(delay);
+    
 
-    if (delay > 0) {          
+    if (delay > 0) {
         setTimeout(() => {
         showNotification(task.title, {
             body: "!",
-            icon: "@/assets/adn.svg",
+            icon: "src/assets/images.jpeg",
         });
         }, delay);
     }
 };
+

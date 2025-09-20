@@ -1,6 +1,5 @@
 import dayjs from 'dayjs'
 import { useEffect } from 'react'
-import { enqueueSnackbar } from 'notistack'
 import {requestNotification, scheduleNotification} from '@/helpers/notify'
 import{
     Table,
@@ -15,8 +14,8 @@ import type { Task } from '@/types/task'
 
 type TaskTableProps = {
     tasks: Task[],
-    onDelete: (id: number)=> void
-    onToggle: (id: number , data: Task) => void
+    onDelete: (id: string)=> void
+    onToggle: (data: Task) => void
 }
 export const TaskTable = ({tasks, onDelete, onToggle}: TaskTableProps) => {
     useEffect(()=> {
@@ -30,7 +29,6 @@ export const TaskTable = ({tasks, onDelete, onToggle}: TaskTableProps) => {
         didMount()
     }, [])
 
-    enqueueSnackbar('')
     return(
         <Table>
             <TableHead>
@@ -54,7 +52,7 @@ export const TaskTable = ({tasks, onDelete, onToggle}: TaskTableProps) => {
                         <TableCell>
                             <Checkbox
                                 checked={task.completed}
-                                onChange={()=> onToggle(Number(task.id) , { ...task, completed: !task.completed })}
+                                onChange={()=> onToggle({ ...task, completed: !task.completed })}
                             />
                         </TableCell>
                         <TableCell>
@@ -72,7 +70,7 @@ export const TaskTable = ({tasks, onDelete, onToggle}: TaskTableProps) => {
                         </TableCell>
                         <TableCell>
                             <DeleteIcon 
-                                onClick={()=> onDelete(task.id)}
+                                onClick={()=> onDelete(task.id.toString())}
                                 sx={{cursor: "pointer"}}
                             />
                         </TableCell>
