@@ -11,9 +11,9 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'robots.txt'],
       manifest: {
-        name: 'ToDo App',
-        short_name: 'ToDo',
-        description: 'Простой таск-менеджер с уведомлениями',
+        name: 'SW',
+        short_name: 'SW',
+        description: 'Just do it',
         theme_color: '#1976d2',
         background_color: '#ffffff',
         display: 'standalone',

@@ -3,7 +3,7 @@ import type { Task } from '@/types/task'
 
 export const toDo = createApi({
   reducerPath: 'taskApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000/' }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'http://172.20.10.7:3000' }),
   endpoints: (builder) => ({
     getTasks: builder.query<Task[], void>({
       query: () => 'todo',

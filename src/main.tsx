@@ -7,14 +7,8 @@ import {App} from '@/App';
 import { ThemeProviderWrapper } from './theme/ThemeProviderWrapper';
 import { registerSW } from "virtual:pwa-register";
 
-export const updateSW = registerSW({
-  onNeedRefresh() {
-    console.log("⚡ Новая версия доступна!");
-  },
-  onOfflineReady() {
-    console.log("✅ Приложение готово работать оффлайн");
-  },
-});
+registerSW({ immediate: true })
+
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
