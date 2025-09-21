@@ -6,6 +6,7 @@ import { store} from '@/redux/store';
 import {App} from '@/App';
 import { ThemeProviderWrapper } from './theme/ThemeProviderWrapper';
 import { registerSW } from "virtual:pwa-register";
+import { SnackbarProvider } from 'notistack'
 
 registerSW({ immediate: true })
 
@@ -15,7 +16,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <Provider store={store}>
       <BrowserRouter>
         <ThemeProviderWrapper>
-          <App/>
+          <SnackbarProvider>
+            <App/>
+          </SnackbarProvider>
         </ThemeProviderWrapper>
       </BrowserRouter> 
     </Provider> 

@@ -13,6 +13,7 @@ import { Error, Loading, Empty } from '@/components/StatusPage'
 import type { Task } from '@/types/task'
 import { AddTaskModal } from './components/AddTaskModal'
 import { setModal } from '@/redux/features/toDoSlice'
+import { useSnackbar } from 'notistack'
 
 export const ToDoPage = () => {
   const [filterTags, setFilterTags] = useState<string[]>([])
@@ -23,11 +24,13 @@ export const ToDoPage = () => {
   const [updateTask] = useUpdateTaskMutation()
   const [createTask] = useAddTaskMutation()
 
+  const { enqueueSnackbar } = useSnackbar() 
+
   const isModalOpen = useAppSelector((state) => state.ui.isAddTaskModalOpen)
   const dispatch = useAppDispatch()
 
   const applyFilters = (tasks: Task[]) => {
-    return tasks.filter((task) => {
+    const filtered =  tasks.filter((task) => {
       // --- Фильтр категории ---
       if (categoryFilter && task.categories !== categoryFilter) return false
 
@@ -49,6 +52,10 @@ export const ToDoPage = () => {
         }
       })
     })
+
+    const priorityOrder = { high: 3, medium: 2, low: 1 }
+
+    return filtered.sort((a, b) => priorityOrder[b.priority] - priorityOrder[a.priority]) // b -> a возврастанию , a -> b убывания
   }
 
   const filteredTasks = useMemo(() => {
@@ -60,6 +67,7 @@ export const ToDoPage = () => {
   const handleDelete = async (id: string) => {
     try {
       await deleteTask(id).unwrap()
+      enqueueSnackbar('Deleted', {variant: 'success'})
     } catch (e) {
       console.error(e)
     }
@@ -93,6 +101,7 @@ export const ToDoPage = () => {
   const toggleFilterTag = (tag: string) => {
     setFilterTags((prev) => (prev.includes(tag) ? prev.filter(f => f !== tag) : [...prev, tag]))
   }
+
 
   return (
     <Box p={2}>
