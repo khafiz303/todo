@@ -39,7 +39,7 @@ export const AddTaskModal = ({open, onClose, onSubmit}: AddTaskModalProps) =>{
         handleSubmit,
         control, 
         reset,
-        // formState: {errors}
+        formState: {errors}
     } =useForm<Omit<Task, 'id'>>({
         defaultValues: {title : '' , completed: false , createdAt: new Date(), notification: new Date(), categories: 'general' , priority : 'low'},
         resolver: yupResolver(schema)
@@ -74,6 +74,7 @@ export const AddTaskModal = ({open, onClose, onSubmit}: AddTaskModalProps) =>{
                         />
                     )}
                 />
+                <span>{errors.title?.message}</span>
 
                 <Controller
                     name="completed"
@@ -90,6 +91,7 @@ export const AddTaskModal = ({open, onClose, onSubmit}: AddTaskModalProps) =>{
                         />
                     )}
                 />
+                <span>{errors.completed?.message}</span>
 
                 <Controller
                     name='notification'
@@ -109,6 +111,7 @@ export const AddTaskModal = ({open, onClose, onSubmit}: AddTaskModalProps) =>{
 
                     )}
                 />
+                <span>{errors.title?.message}</span>
 
                 <Controller
                     name='priority'
@@ -127,6 +130,7 @@ export const AddTaskModal = ({open, onClose, onSubmit}: AddTaskModalProps) =>{
                         </TextField>
                     )}
                 />
+                <span>{errors.title?.message}</span>
                 <Controller
                     name='categories'
                     control={control}
@@ -145,6 +149,7 @@ export const AddTaskModal = ({open, onClose, onSubmit}: AddTaskModalProps) =>{
                         </TextField>
                     )}
                 />
+                <span>{errors.title?.message}</span>
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClose} color='secondary'>
